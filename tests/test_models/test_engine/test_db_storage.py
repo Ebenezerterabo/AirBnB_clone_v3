@@ -67,6 +67,33 @@ test_db_storage.py'])
             self.assertTrue(len(func[1].__doc__) >= 1,
                             "{:s} method needs a docstring".format(func[0]))
 
+    def setUp(self):
+        self.storage = DBStorage()
+        self.obj = Amenity()
+        self.obj.id = '123'
+        self.storage.save()
+
+    def tearDown(self):
+        self.storage.close()
+
+    def test_get(self):
+        """Test that get returns None with no class"""
+        self.assertIsNone(self.storage.get(None, '123'))
+        self.assertIsNone(self.storage.get('Amenity', None))
+        self.assertIsNone(self.storage.get(None, None))
+
+    def test_count(self):
+        """Test that count returns 0 with no class"""
+        self.assertEqual(self.storage.count(), 0)
+        self.assertEqual(self.storage.count('Amenity'), 0)
+        self.assertEqual(self.storage.count(None), 0)
+
+    def test_all(self):
+        """Test that all returns an empty list with no class"""
+        self.assertEqual(self.storage.all(), {})
+        self.assertEqual(self.storage.all('Amenity'), [])
+        self.assertEqual(self.storage.all(None), [])
+
 
 class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
