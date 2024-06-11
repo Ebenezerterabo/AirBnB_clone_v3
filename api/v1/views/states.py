@@ -67,7 +67,7 @@ def put_state(state_id):
     update a State object
     """
     state = storage.get(State, state_id)
-    if state_id:
+    if state:
         if not request.get_json():
             return jsonify({"error": "Not a JSON"}), 400
         else:
