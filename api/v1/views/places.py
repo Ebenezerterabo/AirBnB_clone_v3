@@ -61,15 +61,22 @@ def post_place(city_id):
     Creates a Place object
     """
     city = storage.get(City, city_id)
-    user = storage.get(User, request.get_json().get('user_id'))
-    if not city or not user:
+    if not city:
         return abort(404)
-    elif not request.get_json():
+
+    if not request.get_json():
         return jsonify({"error": "Not a JSON"}), 400
-    elif 'user_id' not in request.get_json():
+
+    if 'user_id' not in request.get_json():
         return jsonify({"error": "Missing user_id"}), 400
-    elif 'name' not in request.get_json():
+
+    user = storage.get(User, request.get_json().get('user_id'))
+    if not user:
+        abort(404)
+
+    if 'name' not in request.get_json():
         return jsonify({"error": "Missing name"}), 400
+
     new_place = Place(**request.get_json())
     storage.new(new_place)
     storage.save()
