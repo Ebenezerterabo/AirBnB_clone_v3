@@ -40,7 +40,7 @@ def get_place(place_id):
 
 @app_views.route('/places/<place_id>',
                  methods=['DELETE'], strict_slashes=False)
-def delete_user(place_id):
+def delete_place(place_id):
     """
     Deletes a Place object
     """
@@ -76,7 +76,7 @@ def post_place(city_id):
 
 @app_views.route('/places/<place_id>',
                  methods=['PUT'], strict_slashes=False)
-def put_user(user_id):
+def put_place(user_id):
     """
     Updates a Place object
     """
