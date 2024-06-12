@@ -7,7 +7,7 @@ from flask import jsonify, abort, request
 from models import storage
 from models.place import Place
 from models.city import City
-
+from models.user import User
 
 @app_views.route('/cities/<city_id>/places',
                  methods=['GET'], strict_slashes=False)
@@ -60,7 +60,8 @@ def post_place(city_id):
     Creates a Place object
     """
     city = storage.get(City, city_id)
-    if not city:
+    user = storage.get(User, request.get_json().get('user_id'))
+    if not city or not user:
         return abort(404)
     elif not request.get_json():
         return jsonify({"error": "Not a JSON"}), 400
@@ -76,11 +77,11 @@ def post_place(city_id):
 
 @app_views.route('/places/<place_id>',
                  methods=['PUT'], strict_slashes=False)
-def put_place(user_id):
+def put_place(place_id):
     """
     Updates a Place object
     """
-    place = storage.get(Place, user_id)
+    place = storage.get(Place, place_id)
     if not place:
         return abort(404)
 
