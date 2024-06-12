@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Amenity view
+User view
 """
 from api.v1.views import app_views
 from flask import jsonify, abort, request
